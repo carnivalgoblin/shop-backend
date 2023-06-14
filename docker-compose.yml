@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+
+  # shop-database
+  shop-new-database:
+    image: postgres:latest
+    container_name: shop-new-database
+    ports:
+      - "5432:5432"
+    environment:
+      TZ: Europe/Berlin
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+      POSTGRES_DB: shop
+    restart: always
