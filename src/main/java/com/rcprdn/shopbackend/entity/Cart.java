@@ -27,12 +27,12 @@ public class Cart {
 
   // METHODS
 
-  public void addProduct(Product product) {
+  public void addProduct(Product product, int quantity) {
     if (items.containsKey(product)) {
-      int quantity = items.get(product);
-      items.put(product, quantity + 1);
+      int exisitingQuantity = items.get(product);
+      items.put(product, exisitingQuantity + quantity);
     } else {
-      items.put(product, 1);
+      items.put(product, quantity);
     }
   }
 }

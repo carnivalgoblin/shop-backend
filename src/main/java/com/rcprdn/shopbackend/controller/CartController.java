@@ -10,22 +10,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/cart")
 @RequiredArgsConstructor
 public class CartController {
 
   private final ProductRepository productRepository;
   private final CartRepository cartRepository;
 
-  @PostMapping("/{cartId}/products/{productId}")
-  public Cart addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) {
+  @PostMapping("/{cartId}/products/{productId}") // EXAMPLE: /carts/{cartId}/products/{productId}?quantity=2
+  public Cart addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam("quantity") int quantity) {
     Cart cart = cartRepository.findById(cartId)
-            .orElseThrow();
+            .orElseGet(() -> {
+              Cart newCart = new Cart();
+              return cartRepository.save(newCart);
+            });
 
     Product product = productRepository.findById(productId)
             .orElseThrow();
 
-    cart.addProduct(product);
+    cart.addProduct(product, quantity);
 
     Cart updatedCart = cartRepository.save(cart);
     return updatedCart;
