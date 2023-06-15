@@ -20,7 +20,7 @@ public class BasicAuthWebSecurityConfiguration {
             //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .httpBasic(Customizer.withDefaults());
 
-    //http.cors();
+    http.cors();
 
     return http.build();
   }
