@@ -17,7 +17,6 @@ public class BasicAuthWebSecurityConfiguration {
                     .requestMatchers("/index.html").permitAll()
                     .anyRequest().permitAll())
             .csrf().disable()
-            //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .httpBasic(Customizer.withDefaults());
 
     http.cors();
