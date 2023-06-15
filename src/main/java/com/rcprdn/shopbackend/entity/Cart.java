@@ -35,4 +35,8 @@ public class Cart {
       items.put(product, quantity);
     }
   }
+
+  public void clearCart() {
+    this.items.clear();
+  }
 }

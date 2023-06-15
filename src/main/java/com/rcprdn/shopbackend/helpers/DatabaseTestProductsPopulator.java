@@ -7,13 +7,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+
 public class DatabaseTestProductsPopulator implements CommandLineRunner {
 
   private ProductRepository productRepository;
 
+
   @Autowired
   public DatabaseTestProductsPopulator(ProductRepository productRepository) {
     this.productRepository = productRepository;
+
   }
 
   @Override
@@ -123,6 +126,7 @@ public class DatabaseTestProductsPopulator implements CommandLineRunner {
     productRepository.save(productTen);
     productRepository.save(productEleven);
     productRepository.save(productTwelve);
+
 
   }
 

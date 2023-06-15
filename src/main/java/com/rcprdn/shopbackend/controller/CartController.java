@@ -17,29 +17,32 @@ public class CartController {
   private final ProductRepository productRepository;
   private final CartRepository cartRepository;
 
-  @PostMapping("/{cartId}/products/{productId}") // EXAMPLE: /carts/{cartId}/products/{productId}?quantity=2
-  public Cart addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam("quantity") int quantity) {
-    Cart cart = cartRepository.findById(cartId)
-            .orElseGet(() -> {
-              Cart newCart = new Cart();
-              return cartRepository.save(newCart);
-            });
 
-    Product product = productRepository.findById(productId)
-            .orElseThrow();
+  // DONT USE
 
-    cart.addProduct(product, quantity);
-
-    Cart updatedCart = cartRepository.save(cart);
-    return updatedCart;
-  }
-
-  // GET
-
-  @GetMapping("/{cartId}")
-  public Cart getCartById(@PathVariable Long cartId) {
-    Cart cart = cartRepository.findById(cartId)
-            .orElseThrow();
-    return cart;
-  }
+//  @PostMapping("/{cartId}/products/{productId}") // EXAMPLE: /carts/{cartId}/products/{productId}?quantity=2
+//  public Cart addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam("quantity") int quantity) {
+//    Cart cart = cartRepository.findById(cartId)
+//            .orElseGet(() -> {
+//              Cart newCart = new Cart();
+//              return cartRepository.save(newCart);
+//            });
+//
+//    Product product = productRepository.findById(productId)
+//            .orElseThrow();
+//
+//    cart.addProduct(product, quantity);
+//
+//    Cart updatedCart = cartRepository.save(cart);
+//    return updatedCart;
+//  }
+//
+//  // GET
+//
+//  @GetMapping("/{cartId}")
+//  public Cart getCartById(@PathVariable Long cartId) {
+//    Cart cart = cartRepository.findById(cartId)
+//            .orElseThrow();
+//    return cart;
+//  }
 }
