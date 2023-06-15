@@ -25,9 +25,8 @@ public class Order {
   @ManyToOne
   private User user;
 
-  @ElementCollection
-  @Column(name = "quantity")
-  private Map<Product, Integer> items = new HashMap<>();
+  @ManyToOne
+  private Cart cart;
 
   @OneToOne
   private PaymentMethod paymentMethod;
