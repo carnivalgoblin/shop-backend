@@ -52,7 +52,10 @@ public class Cart {
     }
   }
 
+  public void deleteProduct() {
+  }
+
   public void clearCart() {
-    this.items.clear();
+    this.items = null;
   }
 }

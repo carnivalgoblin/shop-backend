@@ -9,6 +9,11 @@ import com.rcprdn.shopbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -70,6 +75,24 @@ public class UserController {
     cart.clearCart();
 
     cartRepository.save(cart);
+  }
+
+  @DeleteMapping("/{userId}/cart/{productId}/delete")
+  public void deleteFromCart(@PathVariable Long userId, @PathVariable Long productId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow();
+
+    Cart cart = user.getCart();
+    Map<Product, Integer> products = cart.getItems();
+    Optional<Product> optionalProduct = productRepository.findById(productId);
+
+    Product productToRemove = optionalProduct.get();
+
+    products.remove(productToRemove);
+
+    cartRepository.save(cart);
+
+    // TODO add response for non existatnt cart product
   }
 
 }
