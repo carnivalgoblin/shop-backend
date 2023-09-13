@@ -1,9 +1,14 @@
 package com.rcprdn.shopbackend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,28 +17,61 @@ import java.util.List;
 @ToString
 
 @Entity
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-  // ATTRIBUTES
+    @NotBlank
+    @Size(max = 20)
+    private String username;
 
-  private String firstName;
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
 
-  private String surName;
+    @NotBlank
+    @Size(max = 120)
+    private String password;
 
-  private String password;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-  private String email;
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
-  @OneToOne
-  private Cart cart;
+    // ATTRIBUTES
 
-  @OneToOne
-  private Address address;
-
-  @OneToMany
-  private List<PaymentMethod> paymentMethods;
+    //    private String firstName;
+//
+//    private String surName;
+//
+//    private String password;
+//
+//    private String email;
+//
+    @OneToOne
+    private Cart cart;
+//
+//    @OneToOne
+//    private Address address;
+//
+//    @OneToMany
+//    private List<PaymentMethod> paymentMethods;
+//
+//    @OneToMany
+//    private Role role;
 }

@@ -11,16 +11,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class BasicAuthWebSecurityConfiguration {
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((auth) -> auth
-                    .requestMatchers("/index.html").permitAll()
-                    .anyRequest().permitAll())
-            .csrf().disable()
-            .httpBasic(Customizer.withDefaults());
-
-    http.cors();
-
-    return http.build();
-  }
+//  @Bean
+//  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//    http.authorizeHttpRequests((auth) -> auth
+//                    .requestMatchers("/index.html").permitAll()
+//                    .anyRequest().permitAll())
+//            .csrf().disable()
+//            .httpBasic(Customizer.withDefaults());
+//
+//    http.cors();
+//
+//    return http.build();
+//  }
 }
