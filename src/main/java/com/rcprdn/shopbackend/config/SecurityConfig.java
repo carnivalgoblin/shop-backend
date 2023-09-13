@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,12 +54,12 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-
+  @Bean
   public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
     return new JwtAuthenticationEntryPoint();
   }
 
-
+  @Bean
   public JwtRequestFilter jwtRequestFilter() {
     return new JwtRequestFilter(userDetailsService, jwtTokenUtil);
   }
