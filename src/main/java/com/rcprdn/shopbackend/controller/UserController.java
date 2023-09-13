@@ -19,80 +19,86 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserRepository userRepository;
-  private final ProductRepository productRepository;
-  private final CartRepository cartRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
 
-  // USER OPERATIONS
+    // USER OPERATIONS
 
-  @GetMapping("/{id}")
-  public User getUser(@PathVariable Long id) {
-    User user = userRepository.findById(id)
-            .orElseThrow();
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow();
 
-    return user;
-  }
-
-  // CART OPERATIONS
-
-  @PostMapping("/{userId}/cart/products/{productId}")
-  public Cart addProductToCart(@PathVariable Long userId, @PathVariable Long productId, @RequestParam("quantity") int quantity) {
-    User user = (User) userRepository.findById(userId)
-            .orElseThrow();
-
-    Cart cart = user.getCart();
-
-    if (cart == null) {
-      cart = new Cart();
-      user.setCart(cart);
+        return user;
     }
 
-    Product product = productRepository.findById(productId)
-            .orElseThrow();
+    // Register User
 
-    cart.addProduct(product, quantity);
+    // Login User
 
-    Cart updatedCart = cartRepository.save(cart);
-    return updatedCart;
-  }
+    // Delete User
 
-  @GetMapping("/{userId}/cart")
-  public Cart getCart(@PathVariable Long userId) {
-    User user = (User) userRepository.findById(userId)
-            .orElseThrow();
+    // CART OPERATIONS
 
-    Cart cart = user.getCart();
+    @PostMapping("/{userId}/cart/products/{productId}")
+    public Cart addProductToCart(@PathVariable Long userId, @PathVariable Long productId, @RequestParam("quantity") int quantity) {
+        User user = (User) userRepository.findById(userId)
+                .orElseThrow();
 
-    return cart;
-  }
+        Cart cart = user.getCart();
 
-  @DeleteMapping("/{userId}/cart/delete")
-  public void deleteCart(@PathVariable Long userId) {
-    User user = userRepository.findById(userId)
-            .orElseThrow();
+        if (cart == null) {
+            cart = new Cart();
+            user.setCart(cart);
+        }
 
-    Cart cart = user.getCart();
-    cart.clearCart();
+        Product product = productRepository.findById(productId)
+                .orElseThrow();
 
-    cartRepository.save(cart);
-  }
+        cart.addProduct(product, quantity);
 
-  @DeleteMapping("/{userId}/cart/{productId}/delete")
-  public void deleteFromCart(@PathVariable Long userId, @PathVariable Long productId) {
-    User user = userRepository.findById(userId)
-            .orElseThrow();
+        Cart updatedCart = cartRepository.save(cart);
+        return updatedCart;
+    }
 
-    Cart cart = user.getCart();
-    Map<Product, Integer> products = cart.getItems();
-    Optional<Product> optionalProduct = productRepository.findById(productId);
+    @GetMapping("/{userId}/cart")
+    public Cart getCart(@PathVariable Long userId) {
+        User user = (User) userRepository.findById(userId)
+                .orElseThrow();
 
-    Product productToRemove = optionalProduct.get();
+        Cart cart = user.getCart();
 
-    products.remove(productToRemove);
+        return cart;
+    }
 
-    cartRepository.save(cart);
+    @DeleteMapping("/{userId}/cart/delete")
+    public void deleteCart(@PathVariable Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow();
 
-    // TODO add response for non existatnt cart product
-  }
+        Cart cart = user.getCart();
+        cart.clearCart();
+
+        cartRepository.save(cart);
+    }
+
+    @DeleteMapping("/{userId}/cart/{productId}/delete")
+    public void deleteFromCart(@PathVariable Long userId, @PathVariable Long productId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow();
+
+        Cart cart = user.getCart();
+        Map<Product, Integer> products = cart.getItems();
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        Product productToRemove = optionalProduct.get();
+
+        products.remove(productToRemove);
+
+        cartRepository.save(cart);
+
+        // TODO add response for non existent cart product
+    }
 
 }
